@@ -51,7 +51,7 @@ void main()
 	    break;
 	case 3:
 	    search();
-	    break;
+     break;
 	case 4:
 	    delet();
 	    break;
@@ -116,10 +116,8 @@ void show()
 }
 void search()
 {
-    struct med m;
     FILE *fp;
     char line1[301], line2[300];
-    char med_code[20];
     printf("ENTER med id: ");
     scanf("%s",&line1);
     fp=fopen("medicos.txt","r");
@@ -127,17 +125,16 @@ void search()
     {
 	printf("error in file\n");
     }
-    while(!feof(fp))
+    while(fgets(line2,300,fp)!=NULL)
     {
-	fgets(line2,3,fp);
-	if(strcmp(line2,line1)==0);
+
+	if((strstr(line2,line1))!=NULL);
 	  {
-		printf("Available:\n");     //search
-		return;
+		printf("Available:\n");
+		printf("%s", line2);     //search
 	  }
-	  counter=counter+3;
     }
-    if(strcmp(line2,line)!=0)
+    if(strstr(line2,line1)!=0)
     {
 	printf("Not Available:\n");     //search
 	return;
