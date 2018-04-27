@@ -59,7 +59,9 @@ void display()
     setcolor(6);
     outtextxy(midx+30,midy-100,"Index");
     outtextxy(midx+105,midy+100,"Bottom");
-    /*while(i>-100)
+    /*
+      Demo 1 Changes: This code is not working as required.
+    while(i>-100)
     {
       outtextxy(midx+55,midy+i,index);
       index[0]=++count;
@@ -84,7 +86,9 @@ void display()
       index[0]=++count;
       i=i-20;
     }
-    /*line(midx+100,midy+100,midx+70,midy+100);
+     /*
+      Demo 1: Apply a for Loop.
+    line(midx+100,midy+100,midx+70,midy+100);
     line(midx+100,midy+80,midx+70,midy+80);
     line(midx+100,midy+60,midx+70,midy+60);
     line(midx+100,midy+40,midx+70,midy+40);
@@ -104,7 +108,6 @@ void display()
 	outtextxy(midx+75,midy+90-increment,symb);
 	increment+=20;
     }
-
 }
 
 
@@ -125,7 +128,10 @@ int prec(char ch)
 
 int isEmpty()
 {
-    return top==-1?1:0;
+    if (top==-1)
+     return 1
+    else
+      return 0;
 }
 
 int isoperator(char ch)
@@ -163,9 +169,6 @@ int main()
     outtextxy(midx-300,midy-100,"INFIX TO POSTFIX CONVERSION USING C GRAPHICS");
     setcolor(9);
     settextstyle(5,0,2);
-    outtextxy(midx+150,midy+150,"Developed By,");
-    outtextxy(midx+160,midy+170,"Omkar Deshpande ");
-    outtextxy(midx+160,midy+190,"Anuj Chourange");
     getch();
     clrscr();
     setbkcolor(BLACK);
@@ -182,7 +185,6 @@ int main()
 	if(sym=='(')
 	{
 	    push(sym);
-//  continue;
 	}
 
 	else if(sym==')')
@@ -195,7 +197,6 @@ int main()
 		    break;
 		postfix[j++]=sym;
 	    }
-//continue;
 	}
 
 	else if(!isoperator(sym))
@@ -215,14 +216,11 @@ int main()
 		delay(1000);
 	    }
 	    push(sym);
-
 	}
-
     }
 
     while(!isEmpty())
     {
-
 	postfix[j++]=pop();
 	delay(1000);
 
