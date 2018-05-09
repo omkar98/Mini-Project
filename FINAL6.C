@@ -5,8 +5,9 @@
 #include<process.h>
 #include<conio.h>
 #define size 10
+
 int j=0;
-static char symb[1],sym,p,dup[20],postfix[20],array[20];
+static char symb[1],sym,p,postfix[20],array[20];
 int top=-1,midx,midy;
 char infix[20];
 int temp=0;
@@ -16,12 +17,13 @@ char pop()
 {
     if(top==-1)
     {
-	setcolor(RED);
-	settextstyle(7,0,2);
-	outtextxy(midx-50,midy-150,"STACK UNDER FLOW");
-     }
+        setcolor(RED);
+        settextstyle(7,0,2);
+        outtextxy(midx-50,midy-150,"STACK UNDER FLOW");
+    }
     getch();
     clrscr();
+    clearviewport();
     printf("\n %s",postfix);
     delay(1000);
     display();
@@ -44,24 +46,26 @@ void push(char sym)
 
 void display()
 {
-    int n,i=80,count=48,increment=0;
-    char index[1]={48};
+    int n,i=80,increment=0;
+  //  char index[1]= {48};  ,count=48
     setfillstyle(SOLID_FILL,BLACK);
     floodfill(2,2,BLACK);
     rectangle((getmaxx()/2),0,getmaxx(),getmaxy());
+    setcolor(GREEN);
     settextstyle(7,0,2);
     settextstyle(0,0,1);
     setcolor(6);
+
+    outtextxy(midx+30,midy-150,"Postfix Stack: ");
     outtextxy(midx+30,midy-100,"Index");
     outtextxy(midx+105,midy+100,"Bottom");
-    /*
-      Demo 1 Changes: This code is not working as required.
-    while(i>-100)
-    {
+    /*Demo 1 Changes:
+      while(i>-100)
+      {
       outtextxy(midx+55,midy+i,index);
       index[0]=++count;
       i=i-20;
-    } */
+      } */
     outtextxy(midx+55,midy+90,"0");
     outtextxy(midx+55,midy+70,"1");
     outtextxy(midx+55,midy+50,"2");
@@ -75,17 +79,12 @@ void display()
     line(midx+100,midy+100,midx+100,midy-100);
     line(midx+70,midy+100,midx+70,midy-100);
     line(midx+100,midy+100,midx+70,midy+100);
-
-   /*  Demo 1: Apply a for Loop.
     while(i>-90)
     {
-      line(midx+100,midy+i,midx+70,midy+i);
-      index[0]=++count;
-      i=i-20;
+	line(midx+100,midy+i,midx+70,midy+i);
+	i=i-20;
     }
-
-
-    line(midx+100,midy+100,midx+70,midy+100);
+    /*line(midx+100,midy+100,midx+70,midy+100);
     line(midx+100,midy+80,midx+70,midy+80);
     line(midx+100,midy+60,midx+70,midy+60);
     line(midx+100,midy+40,midx+70,midy+40);
@@ -105,6 +104,7 @@ void display()
 	outtextxy(midx+75,midy+90-increment,symb);
 	increment+=20;
     }
+
 }
 
 
@@ -118,17 +118,17 @@ int prec(char ch)
     case '*':
     case '/':
 	return 3;
-    case '(':
-	return 4;
+	/*    case '(':
+		return 4;  */
     }
 }
 
 int isEmpty()
 {
-    if (top==-1)
-     return 1;
+    if(top==-1)
+        return 1;
     else
-      return 0;
+        return 0;
 }
 
 int isOperator(char ch)
@@ -139,9 +139,9 @@ int isOperator(char ch)
     case '-':
     case '*':
     case '/':
-	return 1;
+        return 1;
     default :
-	return 0;
+        return 0;
     }
 }
 
@@ -153,10 +153,10 @@ void main()
     errorcode = graphresult();
     if (errorcode != grOk)
     {
-	printf("Graphics error: %s\n", grapherrormsg(errorcode));
-	printf("Press any key to halt:");
-	getch();
-	exit(1);
+        printf("Graphics error: %s\n", grapherrormsg(errorcode));
+        printf("Press any key to halt:");
+        getch();
+        exit(1);
     }
 
     midx = getmaxx() / 2;
@@ -166,49 +166,72 @@ void main()
     outtextxy(midx-300,midy-100,"INFIX TO POSTFIX CONVERSION USING C GRAPHICS");
     getch();
     clrscr();
+    clearviewport();
     setbkcolor(BLACK);
 
     setfillstyle(SOLID_FILL,BLACK);
     floodfill(2,2,BLACK);
     rectangle(0,0,getmaxx(),getmaxy());
-    printf(" Enter an expression:");
+    printf("Enter an expression:");
     gets(infix);
     clrscr();
+    clearviewport();
     for(i=0; infix[i]!='\0'; i++)
     {
-	sym=infix[i];
-	 if(!isOperator(sym))
-	{
-	    postfix[j++]=sym;
-	    printf("\n %s",postfix);
-	    delay(1000);
-	}
+        sym=infix[i];
+        if(sym=='(')
+        {
+            push(sym);
+        }
 
-	else
-	{
-	    while(prec(array[top])>=prec(sym) && !isEmpty())
-	    {
+        else if(sym==')')
+        {
+            while(1)
+            {
+                sym=pop();
 
-		postfix[j++]=pop();
+                if(sym=='(')
+                    break;
+                postfix[j++]=sym;
+            }
+        }
 
-		delay(1000);
-	    }
-	    push(sym);
-	}
+        else if(!isOperator(sym))
+        {
+            postfix[j++]=sym;
+            printf("\n %s",postfix);
+            delay(1000);
+        }
+
+        else
+        {
+            while(prec(array[top])>=prec(sym) && !isEmpty())
+            {
+
+                postfix[j++]=pop();
+
+                delay(1000);
+            }
+            push(sym);
+
+        }
+
     }
 
     while(!isEmpty())
     {
-	postfix[j++]=pop();
-	delay(1000);
-	clrscr();
-	display();
-	printf("\n  %s\n",postfix);
-	delay(1000);
+        postfix[j++]=pop();
+        delay(1000);
+
+        clrscr();
+        clearviewport();
+        display();
+        printf("\n %s\n",postfix);
+        delay(1000);
     }
     postfix[j]='\0';
     printf("\n The infix expression is: %s",infix);
     printf("\n The postfix expression is: %s",postfix);
     getch();
-
+    clearviewport();
 }

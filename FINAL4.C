@@ -2,11 +2,9 @@
 #include<graphics.h>
 #include<stdlib.h>
 #include<dos.h>
-#include<alloc.h>
 #include<process.h>
 #include<conio.h>
 #define size 10
-
 int j=0;
 static char symb[1],sym,p,dup[20],postfix[20],array[20];
 int top=-1,midx,midy;
@@ -21,14 +19,12 @@ char pop()
 	setcolor(RED);
 	settextstyle(7,0,2);
 	outtextxy(midx-50,midy-150,"STACK UNDER FLOW");
-	return;
-    }
+     }
     getch();
     clrscr();
-    printf("\n%s",postfix);
+    printf("\n %s",postfix);
     delay(1000);
     display();
-    settextstyle(0,0,0);
     return (array[top--]);
 }
 
@@ -53,7 +49,6 @@ void display()
     setfillstyle(SOLID_FILL,BLACK);
     floodfill(2,2,BLACK);
     rectangle((getmaxx()/2),0,getmaxx(),getmaxy());
-    setcolor(GREEN);
     settextstyle(7,0,2);
     settextstyle(0,0,1);
     setcolor(6);
@@ -80,14 +75,16 @@ void display()
     line(midx+100,midy+100,midx+100,midy-100);
     line(midx+70,midy+100,midx+70,midy-100);
     line(midx+100,midy+100,midx+70,midy+100);
+
+   /*  Demo 1: Apply a for Loop.
     while(i>-90)
     {
       line(midx+100,midy+i,midx+70,midy+i);
       index[0]=++count;
       i=i-20;
     }
-     /*
-      Demo 1: Apply a for Loop.
+
+
     line(midx+100,midy+100,midx+70,midy+100);
     line(midx+100,midy+80,midx+70,midy+80);
     line(midx+100,midy+60,midx+70,midy+60);
@@ -134,7 +131,7 @@ int isEmpty()
       return 0;
 }
 
-int isoperator(char ch)
+int isOperator(char ch)
 {
     switch(ch)
     {
@@ -148,7 +145,7 @@ int isoperator(char ch)
     }
 }
 
-int main()
+void main()
 {
     int ch,i;
     int gdriver = DETECT, gmode, errorcode;
@@ -167,8 +164,6 @@ int main()
     setcolor(RED);
     settextstyle(7,0,2);
     outtextxy(midx-300,midy-100,"INFIX TO POSTFIX CONVERSION USING C GRAPHICS");
-    setcolor(9);
-    settextstyle(5,0,2);
     getch();
     clrscr();
     setbkcolor(BLACK);
@@ -176,33 +171,16 @@ int main()
     setfillstyle(SOLID_FILL,BLACK);
     floodfill(2,2,BLACK);
     rectangle(0,0,getmaxx(),getmaxy());
-    printf("Enter an expression:");
+    printf(" Enter an expression:");
     gets(infix);
     clrscr();
     for(i=0; infix[i]!='\0'; i++)
     {
 	sym=infix[i];
-	if(sym=='(')
-	{
-	    push(sym);
-	}
-
-	else if(sym==')')
-	{
-	    while(1)
-	    {
-		sym=pop();
-
-		if(sym=='(')
-		    break;
-		postfix[j++]=sym;
-	    }
-	}
-
-	else if(!isoperator(sym))
+	 if(!isOperator(sym))
 	{
 	    postfix[j++]=sym;
-	    printf("\n%s",postfix);
+	    printf("\n %s",postfix);
 	    delay(1000);
 	}
 
@@ -223,14 +201,14 @@ int main()
     {
 	postfix[j++]=pop();
 	delay(1000);
-
 	clrscr();
 	display();
-	printf("\n%s\n",postfix);
+	printf("\n  %s\n",postfix);
 	delay(1000);
     }
     postfix[j]='\0';
-    printf("\nThe infix expression is: %s",infix);
-    printf("\nThe postfix expression is: %s",postfix);
+    printf("\n The infix expression is: %s",infix);
+    printf("\n The postfix expression is: %s",postfix);
     getch();
+
 }
